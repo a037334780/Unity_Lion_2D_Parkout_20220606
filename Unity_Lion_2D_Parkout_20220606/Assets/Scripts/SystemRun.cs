@@ -25,11 +25,20 @@ namespace KID
         #endregion
 
         #region 事件:程式入口
-        private void Start()
+        //喚醒事件:開始事件前執行一次，取得原件等
+        private void Awake()
         {
-            print("哈囉 . 沃德 :D");
+            // ani 指定 忍者龜身上的 Animator
+            ani = GetComponent<Animator>();
         }
-        #endregion
 
+        #region 開始事件
+
+        #endregion
+        private void start()
+        //更新事件:每秒執行六十次 60fps
+        private void update()
+        #endregion
+    }
     }
 }
