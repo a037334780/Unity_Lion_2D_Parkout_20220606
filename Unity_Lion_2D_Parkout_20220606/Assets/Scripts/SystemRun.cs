@@ -16,7 +16,7 @@ namespace KID
         private float speedRun = 3.5f;
         [SerializeField, Header("跳躍高度"), Range(0, 300)]
         private float heightJump = 350;
-        private Animation ani;
+        private Animator ani;
         private Rigidbody2D rig;
         #endregion
 
@@ -31,14 +31,15 @@ namespace KID
             // ani 指定 忍者龜身上的 Animator
             ani = GetComponent<Animator>();
         }
+        #endregion
 
         #region 開始事件
 
         #endregion
-        private void start()
         //更新事件:每秒執行六十次 60fps
-        private void update()
-        #endregion
-    }
+        private void Update()
+        {
+
+        }
     }
 }
