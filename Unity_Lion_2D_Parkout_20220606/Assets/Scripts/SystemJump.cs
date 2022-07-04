@@ -10,10 +10,20 @@ namespace KID
         #region 資料
         [SerializeField, Header("跳躍高度"), Range(0, 3000)]
         private float heightJump = 350;
+        [SerializeField, Header("檢查地板尺寸")]
+        private Vector3 v3checkGroundSize = Vector3.one;
+        [SerializeField, Header("檢查地板位移")]
+        private Vector3 v3checkGroundOffser;
+        [SerializeField, Header("檢查地板顏色")]
+        private Color colorCheckGround = new Color(1, 0, 0.2f, 0.5f);
+        [SerializeField, Header("檢查地板圖層")]
+        private LayerMask layerCheckGround;
+
 
         private Animation ani;
         private Rigidbody2D rig;
         private bool clickJump;
+        private bool isGround;
         #endregion
 
         #region 事件
@@ -27,6 +37,7 @@ namespace KID
         private void Update()
         {
             JumpKey();
+            CheckGround();
         }
 
         //一秒固定50次
@@ -35,11 +46,19 @@ namespace KID
             JumpForce();
         }
         #endregion
+        //繪製圖示
+        //在編輯器內繪製輔助用的線條
+        private void OnDrawGizmos()
+        {
+            //1.決定顏色
+            Gizmos.color = colorCheckGround;
+            //2.繪製圖示
+            //transform.position 當前物件的座標
+            Gizmos.DrawCube(transform.position + v3checkGroundOffser, v3checkGroundOffser);
+        }
 
         #region 功能
-        /// <summary>
-        /// 跳躍按鍵
-        /// </summary>
+        // / <summary> 跳躍按鍵
         private void JumpKey()
         {
             // 如果 玩家 按下 空白鍵 就往上 跳躍
@@ -47,18 +66,36 @@ namespace KID
             // if 判斷式語法 : if(布林值){布林值 為 ture 執行程式}
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                print("跳躍~");
+                //print("跳躍~");
                 clickJump = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.Space))
+            {
+                clickJump = false;
             }
         }
 
         private void JumpForce()
         {
-            if (clickJump)
+            //如果 點擊跳躍 並且 && 在地板上
+            if (clickJump && isGround)
             {
                 rig.AddForce(new Vector2(0, heightJump));
                 clickJump = false;
             }
+        }
+
+        ///<summary>
+        /// <檢查是否碰到地板>
+        /// </summary>
+        private void CheckGround()
+        {
+            //2D碰撞器
+            Collider2D hit = Physics2D.OverlapBox(transform.position + v3checkGroundOffser, v3checkGroundSize, 0, layerCheckGround);
+            // print("碰到的物件:" + hit.name);
+
+            isGround = hit;
+
         }
     }
     #endregion
