@@ -26,6 +26,8 @@ namespace KID
             {
                 systemRun.enabled = false;  //關閉跑步
                 systemJump.enabled = false; //關閉跳躍
+                ManagerFinal.enabled = true; //啟動結束管理器
+                ManagerFinal.stringTitle = "恭喜你過關";
             }
         }
 
