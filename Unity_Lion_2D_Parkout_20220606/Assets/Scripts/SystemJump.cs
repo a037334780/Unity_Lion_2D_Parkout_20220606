@@ -18,6 +18,8 @@ namespace KID
         private Color colorCheckGround = new Color(1, 0, 0.2f, 0.5f);
         [SerializeField, Header("檢查地板圖層")]
         private LayerMask layerCheckGround;
+        [SerializeField, Header("跳躍動畫參數")]
+        private string nameJump = "關閉跳躍";
 
 
         private Animation ani;
@@ -38,6 +40,7 @@ namespace KID
         {
             JumpKey();
             CheckGround();
+            UpdateAnimator();
         }
 
         //一秒固定50次
@@ -82,6 +85,8 @@ namespace KID
             {
                 rig.AddForce(new Vector2(0, heightJump));
                 clickJump = false;
+                //音效來源撥放一次音效(音效片段，音量)
+                aud.PlayOneShot(soundJump, Random.Range(0.7f, 1.5f));
             }
         }
 
@@ -89,6 +94,7 @@ namespace KID
         /// <檢查是否碰到地板>
         /// </summary>
         private void CheckGround()
+           
         {
             //2D碰撞器
             Collider2D hit = Physics2D.OverlapBox(transform.position + v3checkGroundOffser, v3checkGroundSize, 0, layerCheckGround);
@@ -96,6 +102,11 @@ namespace KID
 
             isGround = hit;
 
+        }
+        ///<summary>更新動畫
+        private void UpdateAnimator()
+        {
+            ani.SetBool(nameJump, !isGround);
         }
     }
     #endregion
